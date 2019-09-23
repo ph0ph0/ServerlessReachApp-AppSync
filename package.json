@@ -4,6 +4,11 @@
   "private": true,
   "dependencies": {
     "@apollo/react-hooks": "^3.1.1",
+    "@apollo/react-testing": "^3.1.1",
+    "@testing-library/react": "^9.1.4",
+    "apollo-cache-inmemory": "^1.6.3",
+    "apollo-client": "^2.6.3",
+    "apollo-link-http": "^1.5.16",
     "aws-appsync": "^2.0.0",
     "aws-appsync-react": "^2.0.0",
     "glamor": "^2.20.40",
@@ -36,5 +41,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^4.1.0"
+  },
+  "resolutions": {
+    "apollo-client": "2.6.3"
   }
 }
