@@ -31,13 +31,13 @@ const AddRecipe = () => {
                 setInstruction(value)
                 break;
             default:
-                console.log(`*******No match in AddRecipe switch!: ${key}, ${value}`)
+                console.warn(`No match in AddRecipe switch!: ${key}, ${value}`)
         }
     }
 
     const addIngredient = () => {
         if (ingredient === '') {
-            console.log(`!!!!--ingredient was nil`)
+            console.log(`!!!--ingredient was nil`)
             return
         }
 
@@ -49,7 +49,7 @@ const AddRecipe = () => {
 
     const addInstruction = () => {
         if (instruction === '') {
-            console.log(`!!!!--Instruction was nil`)
+            console.log(`!!!--Instruction was nil`)
             return
         }
 
@@ -72,7 +72,7 @@ const AddRecipe = () => {
             instructions: instructionsToAdd
         }
 
-        console.log(`***--addRecipe(id, name, ingredients, instructions): ${recipeToAdd.id}, ${recipeToAdd.name}, ${recipeToAdd.ingredients}, ${recipeToAdd.instructions}`)
+        console.log(`***--addRecipe(id, name, ingredients, instructionss): ${recipeToAdd.id}, ${recipeToAdd.name}, ${recipeToAdd.ingredients}, ${recipeToAdd.instructions}`)
 
         updateReceipeList({
             variables: recipeToAdd,
