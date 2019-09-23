@@ -1,8 +1,9 @@
-import React, { Component, useState } from 'react'
+import React, { useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import CreateRecipe from '../graphql/mutations/CreateRecipe'
 import ListRecipes from '../graphql/queries/ListRecipes'
 import { css } from 'glamor'
+import uiidV4 from 'uuidv4'
 
 //Note that hooks are used only for function components! So here we can define loads of state hooks.
 const AddRecipe = () => {
@@ -62,14 +63,39 @@ const AddRecipe = () => {
         const nameToAdd = name
         const ingredientsToAdd = ingredients
         const instructionsToAdd = instructions
+        const idToAdd = uiidV4()
 
-        console.log(`***--addRecipe(name, ingredients, instructions): ${name}, ${ingredients}, ${instructions}`)
+        const recipeToAdd = {
+            id: idToAdd,
+            name: nameToAdd,
+            ingredients: ingredientsToAdd,
+            instructions: instructionsToAdd
+        }
+
+        console.log(`***--addRecipe(id, name, ingredients, instructions): ${recipeToAdd.id}, ${recipeToAdd.name}, ${recipeToAdd.ingredients}, ${recipeToAdd.instructions}`)
 
         updateReceipeList({
-            variables: {
-                name: nameToAdd,
-                ingredients: ingredientsToAdd,
-                instructions: instructionsToAdd
+            variables: recipeToAdd,
+            optimisticResponse: {
+                __typename: "Mutation",
+                createRecipe: {...recipeToAdd, __typename: 'Recipe'}
+            },
+            update: (cache, { data: { createRecipe } }) => {
+                console.log(`****createRecipe: ${JSON.stringify(createRecipe)}`)
+                try {
+                    const data = cache.readQuery({ 
+                        query: ListRecipes
+                    });
+                    console.log(`***--Data from readQuery: ${JSON.stringify(data)}`)
+                    data.listRecipes.items.push(createRecipe);
+                    cache.writeQuery({ 
+                        query: ListRecipes,
+                         data 
+                    });
+                } catch(error) {
+                    console.log(`!!!--Error updating cache!: ${error}`)
+                }
+                
             }
         })
 
@@ -140,7 +166,7 @@ const AddRecipe = () => {
             </form>
             {mutationLoading && <p>Loading...</p>}
             {mutationError && <p>Error!</p>}
-            {mutationError && console.log(`!!!--Error doing mutation: ${mutationError.message}`)}
+            {mutationError && console.log(`!!!--Error doing mutationn: ${mutationError.message}`)}
         </div>
     )
 }
@@ -159,7 +185,8 @@ const styles = {
         flexDirection: 'column',
         paddingLeft: 100,
         paddingRight: 100,
-        textAlign: 'left'
+        textAlign: 'left',
+        alignItems: 'center'
     },
     input: {
         outline: 'none',

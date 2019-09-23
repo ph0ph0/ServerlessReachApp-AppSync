@@ -6,7 +6,7 @@ import App from './components/App.js';
 import AWSAppSyncClient from "aws-appsync";
 import { Rehydrated } from 'aws-appsync-react';
 
-//NOTE: here we are using apollo provider from react hooks, not from react apollo!
+//NOTE: We must use both ApolloProviders from both libraries
 import { ApolloProvider } from 'react-apollo';
 import { ApolloProvider as ApolloHooksProvider } from '@apollo/react-hooks'
 
