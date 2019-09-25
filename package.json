@@ -46,7 +46,8 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^4.1.0"
+    "@testing-library/jest-dom": "^4.1.0",
+    "reactotron-react-js": "^3.3.3"
   },
   "resolutions": {
     "apollo-client": "2.6.3"

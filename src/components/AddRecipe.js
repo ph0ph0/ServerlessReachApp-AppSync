@@ -80,23 +80,33 @@ const AddRecipe = () => {
                 __typename: "Mutation",
                 createRecipe: {...recipeToAdd, __typename: 'Recipe'}
             },
-            update: (cache, { data: { createRecipe } }) => {
+            update: (client, { data: { createRecipe } }) => {
                 console.log(`****createRecipe: ${JSON.stringify(createRecipe)}`)
                 try {
-                    const data = cache.readQuery({ 
+                    const data = client.readQuery({ 
                         query: ListRecipes
                     });
-                    console.log(`***--Data from readQuery: ${JSON.stringify(data)}`)
-                    data.listRecipes.items.push(createRecipe);
-                    cache.writeQuery({ 
+                    console.log(`***---Data from readQuery: ${JSON.stringify(data)}`)
+                    client.writeQuery({ 
                         query: ListRecipes,
-                         data 
+                         data: {
+                             listRecipes: {
+                                 items: [
+                                    ...data.listRecipes.items, createRecipe
+                                 ],
+                                 __typename: "RecipeConnection"
+                             }
+                         } 
                     });
+                    const dataInCacheAfterAdd = client.readQuery({query: ListRecipes})
+                    console.log(`***--cache after add: ${JSON.stringify(dataInCacheAfterAdd)}`)
                 } catch(error) {
-                    console.log(`!!!--Error updating cache!: ${error}`)
+                    console.log(`!!!---Error updating cache!: ${error}`)
                 }
-                
-            }
+            },
+            refetchQueries: [
+                {query: ListRecipes}
+            ]
         })
 
         setName('')

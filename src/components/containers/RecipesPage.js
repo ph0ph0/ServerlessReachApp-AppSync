@@ -10,12 +10,13 @@ const Recipes = () => {
 
     //We don't have to set state because anytime the component renders, the query will be called.
     //It will try and get the data from our cache first if it can, and if not it will send off to the network.
-    // const [recipesState, setRecipeState] = useState(null)
 
     const client = useApolloClient()
 
     const { data, loading, error} = useQuery(ListRecipes)
     const { data: subData, loading: subLoading, error: subError} = useSubscription(NewRecipeSubscription,{
+        fetchPolicy: 'cache-and-network',
+        
         onSubscriptionData: ({ subscriptionData }) => {
             console.log(`***--RecipeAdded returned to sub: ${JSON.stringify(subscriptionData)}`)
             console.log(`***--Updating cache`)
@@ -30,14 +31,20 @@ const Recipes = () => {
             console.log(`***--NewRecipe: ${JSON.stringify(newRecipe)}`)
 
             if (!includedInCache(dataInCache.listRecipes.items,newRecipe)) {
-                console.log(`***--newRecipe not in cache, adding`)
-                dataInCache.listRecipes.items.push(newRecipe)
-                client.writeData({
-                    data: dataInCache
-                })
+                console.log(`***---newRecipe not in cache, adding`)
+                client.writeQuery({ 
+                    query: ListRecipes,
+                     data: {
+                         listRecipes: {
+                             items: [
+                                ...dataInCache.listRecipes.items, newRecipe
+                             ],
+                             __typename: "RecipeConnection"
+                         }
+                     } 
+                });
                 const dataInCacheAfterAdd = client.readQuery({query: ListRecipes})
-                console.log(`***---cache after add: ${dataInCacheAfterAdd}`)
-            console.log(`***--dataInCacheAfterAdd: ${JSON.stringify(dataInCache)}`)
+                console.log(`***--dataInCacheAfterAdd: ${JSON.stringify(dataInCacheAfterAdd)}`)
             } else {
                 console.log(`!!!--newRecipe is either in cache or boolean map failed`)
             }
@@ -50,15 +57,7 @@ const Recipes = () => {
         console.log(`***--sub is loading!: ${subLoading}`)
     }
 
-    console.log(`data: ${JSON.stringify(data)}`)
-
-    //Will need some sort of state to 
-    //hold the data that comes from the query. Then, everytime the 
-    //subscription fires, we append it to the state.
-
-    //We want to do the first fetch when the component mounts and then update thereafter. Actually, 
-    //useQuery fires when the component first mounts and so we dont need to put this into the
-    //useEffect statement. We also need to provide an unmount listener call
+    console.log(`data: ${JSON.stringify(data)}, t/f: ${!data}`)
 
     if (loading) return <p data-testid = "Loading">Loading...</p>
     if (error) {
@@ -66,13 +65,10 @@ const Recipes = () => {
         return <p>Error!</p>
     }
 
-    return (
+    return  (
         <div data-testid = "recipeComponent">
             <RecipeList  data = {data}/>
-            {subLoading && <p>Loading...</p>}
-            {subError && <p>Error</p>}
         </div>
-        
     )
 }
 
