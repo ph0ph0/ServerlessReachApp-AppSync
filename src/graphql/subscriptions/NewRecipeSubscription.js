@@ -4,7 +4,7 @@ export default gql`
 
     subscription NewRecipeSub {
         onCreateRecipe {
-            
+            id
             name
             ingredients
             instructions
