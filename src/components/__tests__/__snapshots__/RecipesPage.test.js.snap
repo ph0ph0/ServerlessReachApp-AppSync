@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Recipe page renders 1`] = `
+<DocumentFragment>
+  <p
+    data-testid="Loading"
+  >
+    Loading...
+  </p>
+</DocumentFragment>
+`;

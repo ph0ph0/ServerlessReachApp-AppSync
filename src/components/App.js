@@ -3,7 +3,7 @@ import './App.css'
 
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
-import Recipes from './Recipes'
+import RecipesPage from './containers/RecipesPage'
 import AddRecipe from './AddRecipe'
 import Nav from './Nav'
 
@@ -14,7 +14,7 @@ const App = () => {
         <div>
           <Nav />
           <Switch>
-            <Route exact path = "/" component = {Recipes} />
+            <Route exact path = "/" component = {RecipesPage} />
             <Route exact path = "/addrecipe" component = {AddRecipe} />
           </Switch>
         </div>
