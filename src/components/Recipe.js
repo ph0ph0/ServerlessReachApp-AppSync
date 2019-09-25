@@ -1,27 +1,27 @@
 import React from 'react'
 import { css } from 'glamor'
 
-const Recipe = ({ recipe, index }) => {
+const Recipe = ({ recipe }) => {
 
-    const { name, ingredients, instructions } = recipe
+    const { name, ingredients, instructions, id } = recipe
 
     return (
-        <div {...css(styles.recipe)} key = {index}>
+        <div {...css(styles.recipe)} key = {id}>
             <p data-testid = "recipeName" {...css(styles.title)}>Recipe name: {name}</p>
             <div>
                 <p {...css(styles.title)}>Ingredients</p>
                 {
-                    ingredients.map((ingredient, index2) => (
-                        <p data-testid = "recipeIngredients" {...css(styles.subtitle)} key = {index2}>{ingredient}</p>
+                    ingredients.map((ingredient) => (
+                        <p data-testid = "recipeIngredients" {...css(styles.subtitle)} key = {`${id}1`}>{ingredient}</p>
                     ))      
                 }                            
             </div>
             <div>
                 <p {...css(styles.title)}>Instructions</p>
                 {
-                    instructions.map((instruction, index3) => (
-                        <p data-testid = "recipeInstructions"{...css(styles.subtitle)} key = {index}>
-                        {index3 + 1}. {instruction}
+                    instructions.map((instruction, index) => (
+                        <p data-testid = "recipeInstructions"{...css(styles.subtitle)} key = {`${id}2`}>
+                        {index + 1}. {instruction}
                         </p>
                     ))
                 }

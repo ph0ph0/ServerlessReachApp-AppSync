@@ -14,9 +14,8 @@ const Recipes = () => {
     const client = useApolloClient()
 
     const { data, loading, error} = useQuery(ListRecipes)
-    const { data: subData, loading: subLoading, error: subError} = useSubscription(NewRecipeSubscription,{
-        fetchPolicy: 'cache-and-network',
-        
+    const { data: subData, error: subError} = useSubscription(NewRecipeSubscription,{
+        fetchPolicy: 'cache-and-network',   
         onSubscriptionData: ({ subscriptionData }) => {
             console.log(`***--RecipeAdded returned to sub: ${JSON.stringify(subscriptionData)}`)
             console.log(`***--Updating cache`)
@@ -53,8 +52,8 @@ const Recipes = () => {
 
 
     console.log(`***--SubData!!!: ${JSON.stringify(subData)}`)
-    if (subLoading) {
-        console.log(`***--sub is loading!: ${subLoading}`)
+    if (subError) {
+        console.log(`!!!--ssubscriptionError!: ${subError}`)
     }
 
     console.log(`data: ${JSON.stringify(data)}, t/f: ${!data}`)

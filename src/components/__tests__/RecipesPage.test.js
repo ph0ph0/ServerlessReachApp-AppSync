@@ -13,6 +13,7 @@ import RecipesPage from '../containers/RecipesPage'
 import {render, cleanup, waitForElement } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { MockedProvider } from '@apollo/react-testing'
+
 import mocks from '../__mocks__/mocks'
 
 afterEach(cleanup)

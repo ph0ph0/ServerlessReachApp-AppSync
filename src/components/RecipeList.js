@@ -10,7 +10,6 @@ const RecipeList = ({ data }) => {
                 data.listRecipes.items.map((recipe, index) => (
                     <Recipe 
                     recipe = {recipe}
-                    index = {index}
                     />
                 ))
             }

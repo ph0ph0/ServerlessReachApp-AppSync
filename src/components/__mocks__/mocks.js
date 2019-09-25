@@ -1,5 +1,6 @@
 
 import ListRecipes from '../../graphql/queries/ListRecipes'
+import NewRecipeSubscription from '../../graphql/subscriptions/NewRecipeSubscription'
 
 const mocks = [
     {
@@ -11,13 +12,28 @@ const mocks = [
                 listRecipes: {
                     items: [
                         {
-                            name: "Tuna Rolll",
-                            id: "1",
+                            name: "Tuna Roll",
+                            id: "2f568ti7vyu",
                             instructions: ["Mix Tuna"],
                             ingredients: ["Tuna"]
                         }  
                     ]                  
-                }
+                }  
+            }
+        }
+    },
+    {
+        request: {
+            query: NewRecipeSubscription
+        }, 
+        result: {
+            data: {
+                onCreateRecipe: {
+                    name: "Tuna Roll",
+                    id: "2ityvviy",
+                    instructions: ["Mix Tuna"],
+                    ingredients: ["Tuna"]                     
+                }  
             }
         }
     }
@@ -27,12 +43,14 @@ const data = {
     listRecipes: {
         items: [
             {
-                id: "1",
+                id: "1bhuiyg",
                 name: "Tuna Roll",
                 instructions: ["Mix Tuna"],
-                ingredients: ["Tuna"]
+                ingredients: ["Tuna"],
+                // __typename: "Recipe"
             }  
-        ]                  
+        ],
+    // __typename: "RecipeConnection"
     }
 }
 

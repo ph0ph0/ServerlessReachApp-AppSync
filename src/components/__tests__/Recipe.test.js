@@ -11,7 +11,8 @@ afterEach(cleanup)
 const recipe = {
     name: data.listRecipes.items[0].name,
     instructions: data.listRecipes.items[0].instructions,
-    ingredients: data.listRecipes.items[0].ingredients
+    ingredients: data.listRecipes.items[0].ingredients,
+    id: data.listRecipes.items[0].id
 }
 
 // const name = data.listRecipes.items[0].name
@@ -23,7 +24,6 @@ it(("has recipe name, ingredients and instructions"), () => {
         <MockedProvider mocks = {mocks} addTypename = {false}>
                 <Recipe 
                 recipe = {recipe}
-                index = {0}
                 />
         </MockedProvider>
     )
